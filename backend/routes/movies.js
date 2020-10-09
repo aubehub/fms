@@ -9,9 +9,14 @@ router.get('/movies', (req, res) => {
 })
 
 router.post('/movies', (req, res) => {
-  connection.query(`INSERT INTO movies_users_categories SET id_user = "${req.body.id_user}", id_movie = ${req.body.id_movie}, id_category = ${req.body.id_category||"NULL"}`);
+  var sql = 'INSERT INTO movies_users_categories (id_user,id_movie, id_category) VALUES ?'
+  var values = [
+   [req.body.id_user, req.body.id_movie, req.body.id_category]
+  ]
+  
+  connection.query(sql, [values]);
 
-  connection.query(`INSERT INTO movies SET id = "${req.body.id}", title = "${req.body.title}", year = ${req.body.year}, synopsis = "${req.body.synopsis}"`);
+  connection.query('INSERT INTO movies (id, title, year, synopsis) VALUES ?', [[[req.body.id_movie, req.body.title, req.body.year, req.body.synopsis]]])
 
   res.send("ok")
 })

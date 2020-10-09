@@ -1,0 +1,85 @@
+.App {
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+}
+/*  background-image: url("/posterfilms2.jpg");*/
+
+.nvbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  margin: 16px 0;
+  justify-content: space-around;
+  padding: 0px 5%;
+  flex-direction: row;
+}
+
+.icon-fms{
+  flex-basis: 7%;
+  text-align: right;
+  display: flex;
+  height: 75px;
+}
+
+.roll-div{
+  width: 75px;
+  flex-basis: 50%;
+}
+
+.fms-div{
+  flex-basis: 4%;
+  color: #D95032;
+  font-weight: bold;
+  float: right;
+}
+
+.nav-menu{
+  margin: 0 1% 0 5%;
+}
+
+.myLinks, ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-size: 18px;
+  display:flex;
+  font-weight: 600;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #734A27;
+  text-align: center;
+  padding: 0 16px;
+  text-decoration: none;
+}
+
+li a:hover{
+  color: #BF7A26;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.btns{
+  flex-basis: 80%;
+  text-align: right;
+}
+.signup-div,
+.login-div {
+  display:inline
+}
+
+.sign-up-btn{
+  margin: 0 1%;
+  color: #212529;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}

@@ -8,9 +8,15 @@ router.get('/categories', (req, res) => {
   });
 })
 
-router.put("/categories", (req, res) => {
-  connection.query(`INSERT INTO categories SET name = "${req.body.name}", userId = ${req.body.userId}`);
-  res.send("OK");
+router.post('/categories', (req, res) => {
+  var sql = 'INSERT INTO categories (name, userId) VALUES ?'
+  var values = [
+    [req.body.name, req.body.userId]
+  ]
+
+  connection.query(sql, [values]);
+  res.send("ok")
 })
 
 export default router;
+

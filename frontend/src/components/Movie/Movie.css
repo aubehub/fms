@@ -1,0 +1,11 @@
+.titles {
+  margin: 0.5rem 0 0 0;
+  font-weight: 600;
+  color: black;
+}
+
+.second-info a:hover{
+  text-decoration:none
+}
+
+
