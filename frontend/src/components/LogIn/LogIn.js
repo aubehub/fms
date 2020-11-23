@@ -17,6 +17,7 @@ class LogIn extends React.Component{
     this.props.closeLogin()
   }
 
+
   render(){
     return(
       <div className="popup">

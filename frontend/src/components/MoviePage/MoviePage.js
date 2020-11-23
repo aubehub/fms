@@ -29,6 +29,7 @@ class MoviePage extends React.Component {
       })
     })
   }
+
   render(){
     return (
         <div className="movie-page">

@@ -1,3 +1,21 @@
+export const saveUserRegist = (email, username, password) => {
+  postData("http://localhost:4000/users",
+  {
+    email,
+    username,
+    password
+  })
+}
+
+export const attemptLogin  = (email, password) => {
+  postData("http://localhost:4000/user_login",
+    {
+      email, 
+      password
+    }
+  )
+}
+
 export const queryForMovie = (query) => {
   return fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&api_key=ff086add9be8634349e24a34846cf4f3`)
     .then(r => r.json());
@@ -34,9 +52,15 @@ export const saveCategory = (name, userId) => {
   )
 }
 
+export const getUserCategories = () => {
+  return fetch("http://localhost:4000/categories")
+    .then(r => r.json())
+}
+
 export const getShelf = () => {
   return fetch("http://localhost:4000/movies").then(r => r.json())
 }
+
 
 async function postData(url = "http://localhost:4000", data = {}) {
   const response = await fetch(url, {

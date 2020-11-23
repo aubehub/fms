@@ -27,13 +27,19 @@
 .roll-div{
   width: 75px;
   flex-basis: 50%;
+  margin-right: -5px;
 }
 
 .fms-div{
   flex-basis: 4%;
   color: #D95032;
   font-weight: bold;
-  float: right;
+  font-size: 22px;
+  font-family: 'Dancing Script', cursive;
+}
+
+.nvbar .fms-div{
+  margin-left: -6px;
 }
 
 .nav-menu{
@@ -47,7 +53,7 @@
   overflow: hidden;
   font-size: 18px;
   display:flex;
-  font-weight: 600;
+
 }
 
 li {

@@ -42,10 +42,12 @@ class App extends React.Component {
 
       this.state = {
         showSignup: false,
-        showLogin: false
+        showLogin: false,
+        registeredUserName: localStorage.getItem("user") || "",
       };
     this.toggleSignup = this.toggleSignup.bind(this);
     this.toggleLogin = this.toggleLogin.bind(this);
+    this.changeRegistrationName = this.changeRegistrationName.bind(this);
   }
 
   toggleSignup() {  
@@ -60,6 +62,11 @@ class App extends React.Component {
     });  
   }
 
+  changeRegistrationName(input){
+    localStorage.setItem("user", input);
+    this.setState({registeredUserName: input})
+  }
+
   render(){
     return (
       <BrowserRouter basename="/">
@@ -68,7 +75,7 @@ class App extends React.Component {
             <div className="icon-fms">
               <img className="roll-div" src="/roll.jpg" alt="" />
             </div>
-            <h5 className="fms-div">FMS</h5>
+            <h5 className="fms-div">fms</h5>
 
             <nav className="nav-menu">
               <ul className="myLinks">

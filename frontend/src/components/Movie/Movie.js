@@ -1,14 +1,11 @@
 import React from 'react';
 import './Movie.css'
-import { getGenres, saveCategory } from '../../services/api'
+import { getGenres, saveCategory, getUserCategories, saveMovie } from '../../services/api'
 import { Link } from 'react-router-dom';
 import { Input, Tooltip, AutoComplete } from 'antd';
-import { saveMovie } from '../../services/api'
 
 let genres;
 getGenres().then(res => genres = res.genres);
-
-const catOptions = ["drama", "comedy", "action", "science fiction", "musical", "documentary", "western", "horror", "thriller", "animation", "fantasy", "adventure"].map((s) => ({ value: s}));
 
 class Movie extends React.Component {
   constructor(props){  
@@ -17,6 +14,7 @@ class Movie extends React.Component {
       showBoxAdd: false,
       value:"",
       options: [],
+      existingCategories: ["drama", "comedy", "action", "science fiction", "musical", "documentary", "western", "horror", "thriller", "animation", "fantasy", "adventure"].map((s) => ({ value: s})),
       searching: false,
       categories: []
     };
@@ -27,6 +25,22 @@ class Movie extends React.Component {
     this.onCategoryChange = this.onCategoryChange.bind(this);
     this.onCategoryPick = this.onCategoryPick.bind(this);
 
+  }
+
+  componentDidMount() {
+    getUserCategories().then(obj => {
+      /*
+      this.setState({
+        categories: obj.map(el => el.name)
+      })
+      */
+     this.setState({
+        existingCategories: obj.map(el=>({
+          value: el.id + "",
+          label: el.name,
+        }))
+      })
+    })
   }
   
   toggleShowBoxAdd() {  
@@ -41,12 +55,12 @@ class Movie extends React.Component {
     });
   }
 
-  onSelect (selectValue) {
+  onSelect (idCategory, option) {
     this.setState({
       searching: false,
-      categories: [ ...this.state.categories, selectValue ],
+      categories: [ ...this.state.categories, option.label ],
     });
-    saveMovie(this.props.movie, 0, 0)
+    saveMovie(this.props.movie, 0, idCategory)
   }
 
   getDate(isoDate) {
@@ -99,14 +113,14 @@ class Movie extends React.Component {
           <Tooltip placement="bottom" title={"Add to Shelf"}>
             <button className="btn-add" onClick={this.toggleShowBoxAdd}>+</button>
           </Tooltip>
-          {this.state.categories.map(c => (<button>{c}</button>))}
+          {this.state.categories.map((c, idx) => (<button key={idx}>{c}</button>))}
           {this.state.showBoxAdd && (
             <div className="box-add">
               <label>Create category</label>
               <AutoComplete
-                filterOption={true}
+                filterOption={(i, o) => o.label?.includes(i)}
                 placeholder="My favorites, Comedy, Oldies..."
-                options={catOptions}
+                options={this.state.existingCategories}
                 onSearch={this.onSearch}
                 onChange={this.onCategoryChange} 
                 onSelect={this.onSelect}
