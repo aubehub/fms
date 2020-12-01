@@ -39,5 +39,18 @@ class MyShelf extends React.Component {
     )
   }
 }
+//Pedir al servidor que MySelf sea una lista con categorías
+//Para cada categoría habría que importar CategoryShelfList y pasarle como parámetros cada una de las categorías y las películas asociadas a esa categoría
+/* si el servidor responde con algo como 
+{ 
+  "categoria A": [ { movie1 }, { movie2 }, ...], 
+  "categoria B": [ { movie3 }, { movie4 }, ... ],
+  ...
+}
+Object.keys(response).map(key => {
+  <CategoryShelfList movies={response[key]} category={key} key={key} />
+})
+   */
+
 
 export default MyShelf;

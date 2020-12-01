@@ -1,6 +1,6 @@
 import React from 'react';
 import './MoviePage.css'
-import { queryForOneMovie } from '../../services/api'
+import { getOneMovie } from '../../services/api'
 import { withRouter } from "react-router";
 import Movie from '../Movie/Movie';
 
@@ -15,7 +15,12 @@ class MoviePage extends React.Component {
 
   componentDidMount() {
     const movieId = this.props.match.params.movieId
-    queryForOneMovie(movieId).then(obj => {
+    getOneMovie(movieId).then(obj => {
+      /* queryForOneMovie trae a través de fetch los datos de TMDB (se puede mirar el formato en la pestaña network de las devtools)
+         fetch devuelve una promesa, la forma de trabajar con promesas es llamar al método then de las mismas pasando un callback como parámetro
+         ese callback recibe como parámetro la respuesta de la promesa (en este caso la promesa es un fetch asi que la respuesta es la de TMDB)
+         Finalmente sobre esa respuesta hacemos un setState que procesa la respuesta y guarda solo lo que nos interesa.
+      */
       this.setState({
         movie: {
           id: movieId,
@@ -45,3 +50,4 @@ class MoviePage extends React.Component {
 
 export default withRouter(MoviePage);
 
+/*MoviePage hace una llamada a TMDB para traer una pelicula por su ID y actualiza el estado y se lo pasa a Movie como prop */

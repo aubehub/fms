@@ -1,11 +1,8 @@
 import React from 'react';
 import './Movie.css'
-import { getGenres, saveCategory, getUserCategories, saveMovie } from '../../services/api'
+import { saveCategory, getUserCategories, saveMovie } from '../../services/api'
 import { Link } from 'react-router-dom';
-import { Input, Tooltip, AutoComplete } from 'antd';
-
-let genres;
-getGenres().then(res => genres = res.genres);
+import { Tooltip, AutoComplete } from 'antd';
 
 class Movie extends React.Component {
   constructor(props){  
@@ -14,26 +11,20 @@ class Movie extends React.Component {
       showBoxAdd: false,
       value:"",
       options: [],
-      existingCategories: ["drama", "comedy", "action", "science fiction", "musical", "documentary", "western", "horror", "thriller", "animation", "fantasy", "adventure"].map((s) => ({ value: s})),
+      existingCategories: [], //las categorias que ya tiene el usuario creadas. Por ej, si ya exieste 'oldies' que se autocomplete cuando empiezo a escribir
       searching: false,
-      categories: []
+      categories: [] //las categorías bajo las que se guardó la peli, que deberían aparecer cuando estando logeada pincho en una peli guardada
     };
-
-    this.toggleShowBoxAdd = this.toggleShowBoxAdd.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-    this.onCategoryChange = this.onCategoryChange.bind(this);
-    this.onCategoryPick = this.onCategoryPick.bind(this);
-
   }
-
+/*
   componentDidMount() {
     getUserCategories().then(obj => {
       /*
+      debería ir a mi servidor y traer las categorías asociadas a la pelicula que se está mirando
       this.setState({
         categories: obj.map(el => el.name)
       })
-      */
+//   
      this.setState({
         existingCategories: obj.map(el=>({
           value: el.id + "",
@@ -42,20 +33,20 @@ class Movie extends React.Component {
       })
     })
   }
-  
-  toggleShowBoxAdd() {  
+   */  
+  toggleShowBoxAdd = () => {  
     this.setState({  
       showBoxAdd: !this.state.showBoxAdd  
     });  
   }
 
-  onSearch (searchText) {
+  onSearch = (searchText) => {
     this.setState({
       searching: !!searchText
     });
   }
 
-  onSelect (idCategory, option) {
+  onSelect = (idCategory, option) => {
     this.setState({
       searching: false,
       categories: [ ...this.state.categories, option.label ],
@@ -68,7 +59,7 @@ class Movie extends React.Component {
     return (date.getMonth()+1) + '/'+date.getDate() + '/'+ date.getFullYear();
   }
 
-  onCategoryPick(evt) {
+  onCategoryPick = (evt) => {
     if (evt.key === 'Enter') {
       saveCategory(this.state.value, 0)
       //Función que llama al backend y crea la categoria
@@ -79,7 +70,7 @@ class Movie extends React.Component {
     }
   }
 
-  onCategoryChange(input) {
+  onCategoryChange = (input) => {
     this.setState({
       value: input
     })

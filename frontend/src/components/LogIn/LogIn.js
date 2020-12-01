@@ -8,11 +8,9 @@ class LogIn extends React.Component{
       userName:"",
       password:"",
     }
-  
-  this.handleClose = this.handleClose.bind(this);
   }
 
-  handleClose(e){
+  handleClose = (e) => {
     e.preventDefault();
     this.props.closeLogin()
   }

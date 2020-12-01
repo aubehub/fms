@@ -1,5 +1,6 @@
 const rutasProtegidas = express.Router();
 import jwt from 'jsonwebtoken';
+import express from "express";
 
 rutasProtegidas.use((req, res, next) => {
     const token = req.headers['access-token'];

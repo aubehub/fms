@@ -1,6 +1,6 @@
 import React from 'react';
 import Movie from '../Movie/Movie';
-import { queryForMovie } from '../../services/api'
+import { searchMovie } from '../../services/api'
 import { withRouter } from "react-router";
 import "./QueryResultsPage.css";
 
@@ -17,7 +17,7 @@ class QueryResultsPage extends React.Component {
   
   getResults() {
     const query = this.props.match.params.query;
-    queryForMovie(query).then(res => {
+    searchMovie(query).then(res => {
       this.setState({
         searchEntered:true,
         movies: res.results.map((obj) => {
@@ -37,8 +37,10 @@ class QueryResultsPage extends React.Component {
     this.getResults();
   }
 
-  componentDidUpdate() {
-    this.getResults();
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.query !== prevProps.match.params.query) {
+      this.getResults();
+    }
   }
 
   render(){

@@ -11,18 +11,15 @@ class SearchBar extends React.Component {
     this.state = {
       title: "",
     };
-
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
   }
 
-  handleTitleChange(event) {
+  handleTitleChange = (event) => {
     this.setState({
       title: event.target.value
     })
   }
 
-  handleSearch(ev){
+  handleSearch = (ev) => {
     ev.preventDefault();
     this.props.history.push(`/search/${this.state.title}`);
   }

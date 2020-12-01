@@ -19,7 +19,7 @@ router.post('/users', async(req, res) => {
   
   connection.query(sql, [values], (err) => {
     if (err) {
-      // console.log("ya existe la categoría")
+      console.log(err)
       res.send("duplicated");
     } else {
       res.send("ok")

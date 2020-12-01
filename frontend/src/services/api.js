@@ -1,5 +1,5 @@
 export const saveUserRegist = (email, username, password) => {
-  postData("http://localhost:4000/users",
+  return postData("http://localhost:4000/users",
   {
     email,
     username,
@@ -8,7 +8,7 @@ export const saveUserRegist = (email, username, password) => {
 }
 
 export const attemptLogin  = (email, password) => {
-  postData("http://localhost:4000/user_login",
+  return postData("http://localhost:4000/user_login",
     {
       email, 
       password
@@ -16,12 +16,12 @@ export const attemptLogin  = (email, password) => {
   )
 }
 
-export const queryForMovie = (query) => {
+export const searchMovie = (query) => {
   return fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&api_key=ff086add9be8634349e24a34846cf4f3`)
     .then(r => r.json());
 }
 
-export const queryForOneMovie = (id) => {
+export const getOneMovie = (id) => {
   return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=ff086add9be8634349e24a34846cf4f3`)
     .then(r => r.json());
 }
@@ -31,7 +31,7 @@ export const getGenres = () => {
 }
 
 export const saveMovie = (movie, id_user, id_category) => {
-   postData("http://localhost:4000/movies", 
+  return postData("http://localhost:4000/movies", 
     {
     id_user,
     id_category,
@@ -44,7 +44,7 @@ export const saveMovie = (movie, id_user, id_category) => {
 }
 
 export const saveCategory = (name, userId) => {
-    postData("http://localhost:4000/categories",
+  return  postData("http://localhost:4000/categories",
     {
       name, 
       userId
@@ -56,21 +56,24 @@ export const getUserCategories = () => {
   return fetch("http://localhost:4000/categories")
     .then(r => r.json())
 }
+//?
 
 export const getShelf = () => {
   return fetch("http://localhost:4000/movies").then(r => r.json())
 }
 
-
+//Funcion para hacer peticiones post. 2 argumentos (url por defecto, contenido/datos)
 async function postData(url = "http://localhost:4000", data = {}) {
+  const token = window.localStorage.getItem("token");
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
       // 'Content-Type': 'application/x-www-form-urlencoded',
+      'access-token': token
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -79,3 +82,5 @@ async function postData(url = "http://localhost:4000", data = {}) {
   return response; // parses JSON response into native JavaScript objects
 }
 
+// Almacenar el token en window.localStorage.set("token", res.token) en el componente (creo que sería en app) a traves del resultado de la promesa de attemptLogin (que es la respuesta del servidor)
+  

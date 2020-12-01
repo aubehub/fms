@@ -10,24 +10,20 @@ class SignUp extends React.Component{
       username:"",
       password:""
     }
-  
-  this.handleClose = this.handleClose.bind(this);
-  this.handleInputChange = this.handleInputChange.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleClose(e){
+  handleClose = (e) => {
     e.preventDefault();
     this.props.closeSignup()
   }
 
-  handleInputChange(e, name){
+  handleInputChange = (e, name) => {
     this.setState({
       [name]:e.target.value,
     })
   }
 
-  handleSubmit(e){
+  handleSubmit = (e) => {
     e.preventDefault();
     saveUserRegist(this.state.email, this.state.username, this.state.password)
     this.props.closeSignup()

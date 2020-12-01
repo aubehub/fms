@@ -9,6 +9,7 @@ router.get('/movies', (req, res) => {
 })
 
 router.post('/movies', (req, res) => {
+  //post para crear una categoria. Considerar cambiar nombre a ruta
   var sql = 'INSERT INTO movies_users_categories (id_user, id_movie, id_category) VALUES ?'
   var values = [
   [req.body.id_user, req.body.id_movie, req.body.id_category]

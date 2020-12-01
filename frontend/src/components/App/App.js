@@ -16,7 +16,6 @@ import MyShelf from '../MyShelf/MyShelf';
 import Home from '../Home/Home';
 import QueryResultsPage from '../QueryResultsPage/QueryResultsPage';
 import MoviePage from '../MoviePage/MoviePage';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import SignUp from '../SignUp/SignUp';
 import LogIn from '../LogIn/LogIn';
 
@@ -43,30 +42,27 @@ class App extends React.Component {
       this.state = {
         showSignup: false,
         showLogin: false,
-        registeredUserName: localStorage.getItem("user") || "",
+        /*registeredUserName: localStorage.getItem("user") || "" */
       };
-    this.toggleSignup = this.toggleSignup.bind(this);
-    this.toggleLogin = this.toggleLogin.bind(this);
-    this.changeRegistrationName = this.changeRegistrationName.bind(this);
   }
 
-  toggleSignup() {  
+  toggleSignup = () => {  
     this.setState({  
          showSignup: !this.state.showSignup 
     });  
   }
 
-  toggleLogin() {  
+  toggleLogin = () =>{  
     this.setState({  
          showLogin: !this.state.showLogin 
     });  
   }
-
-  changeRegistrationName(input){
+/*
+  changeRegistrationName = (input) => {
     localStorage.setItem("user", input);
     this.setState({registeredUserName: input})
   }
-
+*/
   render(){
     return (
       <BrowserRouter basename="/">
