@@ -89,3 +89,15 @@ li a:hover{
   background-color: #ffc107;
   border-color: #ffc107;
 }
+
+.logout-btn.btn.btn-primary{
+  width: 180px;
+  border: 1.5px solid rgb(218, 224, 230);
+  color:rgb(0, 105, 217);
+  background-color: white;
+}
+
+.logout-icon{
+  width:20px;
+  margin-left: 15px;
+}

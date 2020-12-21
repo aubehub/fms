@@ -18,6 +18,7 @@ import QueryResultsPage from '../QueryResultsPage/QueryResultsPage';
 import MoviePage from '../MoviePage/MoviePage';
 import SignUp from '../SignUp/SignUp';
 import LogIn from '../LogIn/LogIn';
+import { attemptLogin } from '../../services/api'
 
 const MyLink = (props) => {
   const match = useRouteMatch({
@@ -42,7 +43,7 @@ class App extends React.Component {
       this.state = {
         showSignup: false,
         showLogin: false,
-        /*registeredUserName: localStorage.getItem("user") || "" */
+        username: window.localStorage.getItem("username") 
       };
   }
 
@@ -57,13 +58,29 @@ class App extends React.Component {
          showLogin: !this.state.showLogin 
     });  
   }
-/*
-  changeRegistrationName = (input) => {
-    localStorage.setItem("user", input);
-    this.setState({registeredUserName: input})
+
+  // Se llama cuando se loguea o desloguea un usuario
+  changeUser = (input) => {
+    const username = window.localStorage.getItem("username");
+    this.setState({ username: username })
   }
-*/
+  
+  resetLogIn = () => {
+    this.setState({
+      username: ""
+    })
+  }
+
   render(){
+    const isLoggedIn = !!this.state.username;
+    let buttonLog, buttonSign, buttonOut;
+    if (!isLoggedIn) {
+      buttonLog = <Button variant="outline-warning" className="log-in-btn" onClick={this.toggleLogin.bind(this)}>LOG IN </Button>
+      buttonSign = <Button variant="warning" className="sign-up-btn" onClick={this.toggleSignup.bind(this)}>SIGN UP</Button>
+    } else {
+      buttonOut = <Button className="logout-btn" onClick={this.resetLogIn}><img className="logout-icon" alt="logout-icon" src="/cerrar-sesion.png"></img></Button>
+    }
+
     return (
       <BrowserRouter basename="/">
         <div className="App">
@@ -87,19 +104,28 @@ class App extends React.Component {
 
             <div className="btns">
               <div className="signup-div">
-                <Button onClick={this.toggleSignup} variant="warning" className="sign-up-btn">SIGN UP</Button>
+                {buttonSign}
                 {this.state.showSignup ?  
-                <SignUp closeSignup={this.toggleSignup}/>
+                <SignUp changeRegistrationName={this.changeUser} closeSignup={this.toggleSignup}/>
                 : null
                 }
               </div>
               <div className="login-div">              
-                <Button onClick={this.toggleLogin} variant="outline-warning" className="log-in-btn">LOG IN</Button>
+                {buttonLog}
                 {this.state.showLogin ?  
-                <LogIn closeLogin={this.toggleLogin} />
+                <LogIn changeRegistrationName={this.changeUser}
+                closeLogin={this.toggleLogin} />
                 : null
                 }
               </div>
+              {!!this.state.username &&
+                (
+                <div className="logout-div">
+                <h6 className="welcome">Welcome {this.state.username} </h6>
+                {buttonOut}
+                </div>
+                )}
+
             </div>
           </div>
             <Switch>

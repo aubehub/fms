@@ -16,15 +16,15 @@ class Movie extends React.Component {
       categories: [] //las categorías bajo las que se guardó la peli, que deberían aparecer cuando estando logeada pincho en una peli guardada
     };
   }
-/*
+
   componentDidMount() {
     getUserCategories().then(obj => {
-      /*
-      debería ir a mi servidor y traer las categorías asociadas a la pelicula que se está mirando
+      
+      //debería ir a mi servidor y traer las categorías asociadas a la pelicula que se está mirando
       this.setState({
         categories: obj.map(el => el.name)
       })
-//   
+  
      this.setState({
         existingCategories: obj.map(el=>({
           value: el.id + "",
@@ -33,7 +33,7 @@ class Movie extends React.Component {
       })
     })
   }
-   */  
+  
   toggleShowBoxAdd = () => {  
     this.setState({  
       showBoxAdd: !this.state.showBoxAdd  
@@ -51,7 +51,8 @@ class Movie extends React.Component {
       searching: false,
       categories: [ ...this.state.categories, option.label ],
     });
-    saveMovie(this.props.movie, 0, idCategory)
+    const userId = window.localStorage.getItem("userId");
+    saveMovie(this.props.movie, userId, idCategory)
   }
 
   getDate(isoDate) {
@@ -60,8 +61,9 @@ class Movie extends React.Component {
   }
 
   onCategoryPick = (evt) => {
+    const userId = window.localStorage.getItem("userId");
     if (evt.key === 'Enter') {
-      saveCategory(this.state.value, 0)
+      saveCategory(this.state.value, userId)
       //Función que llama al backend y crea la categoria
       this.setState({
         searching: false,

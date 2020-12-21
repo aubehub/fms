@@ -1,10 +1,10 @@
-export const saveUserRegist = (email, username, password) => {
+export const attemptRegist = (email, username, password) => {
   return postData("http://localhost:4000/users",
   {
     email,
     username,
     password
-  })
+  }).then(r => r.json())
 }
 
 export const attemptLogin  = (email, password) => {
@@ -13,7 +13,7 @@ export const attemptLogin  = (email, password) => {
       email, 
       password
     }
-  )
+  ).then(r => r.json())
 }
 
 export const searchMovie = (query) => {
@@ -44,7 +44,7 @@ export const saveMovie = (movie, id_user, id_category) => {
 }
 
 export const saveCategory = (name, userId) => {
-  return  postData("http://localhost:4000/categories",
+  return postData("http://localhost:4000/categories",
     {
       name, 
       userId
@@ -59,28 +59,50 @@ export const getUserCategories = () => {
 //?
 
 export const getShelf = () => {
-  return fetch("http://localhost:4000/movies").then(r => r.json())
+  const token = window.localStorage.getItem("token");
+
+  const headers = {
+    'Content-Type': 'application/json',
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+    
+  };
+  if (token) {
+    headers['access-token'] = token;
+  }
+  return fetch("http://localhost:4000/movies", { headers }).then(r => r.json())
 }
 
 //Funcion para hacer peticiones post. 2 argumentos (url por defecto, contenido/datos)
 async function postData(url = "http://localhost:4000", data = {}) {
   const token = window.localStorage.getItem("token");
+
+  const headers = {
+    'Content-Type': 'application/json',
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+    
+  };
+  if (token) {
+    headers['access-token'] = token;
+  }
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json',
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-      'access-token': token
-    },
+    headers,
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data) // body data type must match "Content-Type" header
+  }).then((res) => {
+    if (res.status === 403) {
+      localStorage.clear();
+      window.location.reload();
+    }
+    return res;
   });
+  console.log(response)
   return response; // parses JSON response into native JavaScript objects
 }
 
-// Almacenar el token en window.localStorage.set("token", res.token) en el componente (creo que sería en app) a traves del resultado de la promesa de attemptLogin (que es la respuesta del servidor)
+// Almacenar el token en window.localStorage.setItem("token", res.token) en el componente (creo que sería en app) a traves del resultado de la promesa de attemptLogin (que es la respuesta del servidor)
   

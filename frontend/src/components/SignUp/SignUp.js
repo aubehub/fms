@@ -1,6 +1,6 @@
 import React from 'react';
 import './SignUp.css';
-import { saveUserRegist } from '../../services/api';
+import { attemptRegist } from '../../services/api';
 
 class SignUp extends React.Component{
   constructor(props) {
@@ -17,6 +17,20 @@ class SignUp extends React.Component{
     this.props.closeSignup()
   }
 
+  registration = async (e) => {
+    e.preventDefault();
+    const res = await attemptRegist(this.state.email,this.state.username, this.state.password);
+    if (res.token) {
+      window.localStorage.setItem("token", res.token);
+      window.localStorage.setItem("userId", res.id);
+      window.localStorage.setItem("username", res.username);
+      this.props.closeSignup();
+      this.props.changeRegistrationName();
+    } else {
+      alert("password o usuario incorrecto");
+    }
+  }
+
   handleInputChange = (e, name) => {
     this.setState({
       [name]:e.target.value,
@@ -25,7 +39,7 @@ class SignUp extends React.Component{
 
   handleSubmit = (e) => {
     e.preventDefault();
-    saveUserRegist(this.state.email, this.state.username, this.state.password)
+    attemptRegist(this.state.email, this.state.username, this.state.password)
     this.props.closeSignup()
   }
 
@@ -35,7 +49,7 @@ class SignUp extends React.Component{
         <div className="popup-inner">
           <button onClick={this.handleClose} className="close-icon"><i className="fa fa-times"></i></button>
 
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.registration}>
             <h3>Sign up</h3>
             <div className="form-group">
               <label>Email</label>
